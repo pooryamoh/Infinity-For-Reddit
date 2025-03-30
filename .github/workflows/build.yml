@@ -18,7 +18,7 @@ jobs:
       run: |
           sed  -i "s/NOe2iKrPPzwscA/$API_TOKEN/" /home/runner/work/Infinity-For-Reddit/Infinity-For-Reddit/app/src/main/java/ml/docilealligator/infinityforreddit/utils/APIUtils.java
           sed -i "s/infinity:\/\/localhost/${REDIRECT_URI//\//\\/}/" /home/runner/work/Infinity-For-Reddit/Infinity-For-Reddit/app/src/main/java/ml/docilealligator/infinityforreddit/utils/APIUtils.java
-          sed -i "s/public static final String USER_AGENT = \".*?\";/$USER_AGENT" /home/runner/work/Infinity-For-Reddit/Infinity-For-Reddit/app/src/main/java/ml/docilealligator/infinityforreddit/utils/APIUtils.java
+          sed -i "s/public static final String USER_AGENT = \".*?\";/$USER_AGENT/" /home/runner/work/Infinity-For-Reddit/Infinity-For-Reddit/app/src/main/java/ml/docilealligator/infinityforreddit/utils/APIUtils.java
           cat /home/runner/work/Infinity-For-Reddit/Infinity-For-Reddit/app/src/main/java/ml/docilealligator/infinityforreddit/utils/APIUtils.java
 
 
