@@ -14,6 +14,7 @@ jobs:
     - name: Folder Location
       env:
        API_TOKEN: ${{ secrets.API_TOKEN }}
+       REDIRECT_URI: "http:\/\/127.0.0.1"
       run: |
           sed  -i "s/NOe2iKrPPzwscA/$API_TOKEN/" /home/runner/work/Infinity-For-Reddit/Infinity-For-Reddit/app/src/main/java/ml/docilealligator/infinityforreddit/utils/APIUtils.java
           cat /home/runner/work/Infinity-For-Reddit/Infinity-For-Reddit/app/src/main/java/ml/docilealligator/infinityforreddit/utils/APIUtils.java
