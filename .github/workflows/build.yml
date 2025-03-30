@@ -15,7 +15,7 @@ jobs:
       env:
        API_TOKEN: ${{ secrets.API_TOKEN }}
        REDIRECT_URI: "http://127.0.0.1"
-       USER_AGENT: ${{ secrets.USER_AGENT }}
+       USER_AGENT: ${{ env.USER_AGENT }}
       run: |
           sed  -i "s/NOe2iKrPPzwscA/$API_TOKEN/" /home/runner/work/Infinity-For-Reddit/Infinity-For-Reddit/app/src/main/java/ml/docilealligator/infinityforreddit/utils/APIUtils.java
           sed -i "s/infinity:\/\/localhost/${REDIRECT_URI//\//\\/}/" /home/runner/work/Infinity-For-Reddit/Infinity-For-Reddit/app/src/main/java/ml/docilealligator/infinityforreddit/utils/APIUtils.java
