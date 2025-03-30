@@ -15,12 +15,11 @@ jobs:
       env:
        API_TOKEN: ${{ secrets.API_TOKEN }}
        REDIRECT_URI: "http://127.0.0.1"
-       USER_AGENT: ${{ env.USER_AGENT }}
+       USER_AGENT: "android:personal-app:0.0.1 (by /u/Bardulfkyles-app)"
       run: |
           sed  -i "s/NOe2iKrPPzwscA/$API_TOKEN/" /home/runner/work/Infinity-For-Reddit/Infinity-For-Reddit/app/src/main/java/ml/docilealligator/infinityforreddit/utils/APIUtils.java
           sed -i "s/infinity:\/\/localhost/${REDIRECT_URI//\//\\/}/" /home/runner/work/Infinity-For-Reddit/Infinity-For-Reddit/app/src/main/java/ml/docilealligator/infinityforreddit/utils/APIUtils.java
-          sed -i "s/public static final String USER_AGENT = \".*\";/public static final String USER_AGENT = \"${{ env.USER_AGENT }}\";/" /home/runner/work/Infinity-For-Reddit/Infinity-For-Reddit/app/src/main/java/ml/docilealligator/infinityforreddit/utils/APIUtils.java
-          echo $USER_AGENT
+          sed -i "s/public static final String USER_AGENT = \".*\";/public static final String USER_AGENT = \"${USER_AGENT//\//\\/}/\";/" /home/runner/work/Infinity-For-Reddit/Infinity-For-Reddit/app/src/main/java/ml/docilealligator/infinityforreddit/utils/APIUtils.java
           cat /home/runner/work/Infinity-For-Reddit/Infinity-For-Reddit/app/src/main/java/ml/docilealligator/infinityforreddit/utils/APIUtils.java
 
 
