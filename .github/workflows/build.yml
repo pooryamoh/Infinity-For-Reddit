@@ -11,7 +11,7 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
-    - name: Folder Location
+    - name: Change Credentials
       env:
        API_TOKEN: ${{ secrets.API_TOKEN }}
        REDIRECT_URI: "http://127.0.0.1"
@@ -20,23 +20,21 @@ jobs:
           sed  -i "s/NOe2iKrPPzwscA/$API_TOKEN/" /home/runner/work/Infinity-For-Reddit/Infinity-For-Reddit/app/src/main/java/ml/docilealligator/infinityforreddit/utils/APIUtils.java
           sed -i "s/infinity:\/\/localhost/${REDIRECT_URI//\//\\/}/" /home/runner/work/Infinity-For-Reddit/Infinity-For-Reddit/app/src/main/java/ml/docilealligator/infinityforreddit/utils/APIUtils.java
           sed -i "s/public static final String USER_AGENT = \".*\";/public static final String USER_AGENT = \"${USER_AGENT//\//\\/}\";/" /home/runner/work/Infinity-For-Reddit/Infinity-For-Reddit/app/src/main/java/ml/docilealligator/infinityforreddit/utils/APIUtils.java
-          cat /home/runner/work/Infinity-For-Reddit/Infinity-For-Reddit/app/src/main/java/ml/docilealligator/infinityforreddit/utils/APIUtils.java
 
+    - name: Set-up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
 
-    # - name: Set-up JDK 17
-    #   uses: actions/setup-java@v3
-    #   with:
-    #     java-version: '17'
-    #     distribution: 'temurin'
+    - name: Setup and build with Gradle
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: build -x lint
 
-    # - name: Setup and build with Gradle
-    #   uses: gradle/gradle-build-action@v2
-    #   with:
-    #     arguments: build -x lint
-
-    # - name: Upload apk
-    #   uses: actions/upload-artifact@v4
-    #   with:
-    #     name: Infinity-${{github.sha}}
-    #     path: app/build/outputs/apk/
-    #     if-no-files-found: error
+    - name: Upload apk
+      uses: actions/upload-artifact@v4
+      with:
+        name: Infinity-${{github.sha}}
+        path: app/build/outputs/apk/
+        if-no-files-found: error
