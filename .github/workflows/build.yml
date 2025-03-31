@@ -11,6 +11,9 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
+    - name: Setup Python
+      uses: actions/setup-python@v5
+
     - name: Change Credentials
       env:
        API_TOKEN: ${{ secrets.API_TOKEN }}
@@ -20,21 +23,22 @@ jobs:
           sed  -i "s/NOe2iKrPPzwscA/$API_TOKEN/" /home/runner/work/Infinity-For-Reddit/Infinity-For-Reddit/app/src/main/java/ml/docilealligator/infinityforreddit/utils/APIUtils.java
           sed -i "s/infinity:\/\/localhost/${REDIRECT_URI//\//\\/}/" /home/runner/work/Infinity-For-Reddit/Infinity-For-Reddit/app/src/main/java/ml/docilealligator/infinityforreddit/utils/APIUtils.java
           sed -i "s/public static final String USER_AGENT = \".*\";/public static final String USER_AGENT = \"${USER_AGENT//\//\\/}\";/" /home/runner/work/Infinity-For-Reddit/Infinity-For-Reddit/app/src/main/java/ml/docilealligator/infinityforreddit/utils/APIUtils.java
+          wget -P /content/ "https://github.com/TanukiAI/Infinity-keystore/raw/main/Infinity.jks"
+          python -c 'build_gradle_file = "/content/Infinity-For-Reddit/app/build.gradle"; build_gradle_code = open(build_gradle_file, "r", encoding="utf-8-sig").read(); build_gradle_code = build_gradle_code.replace(r"""    buildTypes {""", r"""    signingConfigs {        release {            storeFile file("/content/Infinity.jks")            storePassword "Infinity"            keyAlias "Infinity"            keyPassword "Infinity"        }    }    buildTypes {"""); build_gradle_code = build_gradle_code.replace(r"""    buildTypes {        release {""", r"""    buildTypes {        release {            signingConfig signingConfigs.release"""); open(build_gradle_file, "w", encoding="utf-8").write(build_gradle_code)'
+    # - name: Set-up JDK 17
+    #   uses: actions/setup-java@v3
+    #   with:
+    #     java-version: '17'
+    #     distribution: 'temurin'
 
-    - name: Set-up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
+    # - name: Setup and build with Gradle
+    #   uses: gradle/gradle-build-action@v2
+    #   with:
+    #     arguments: build -x lint
 
-    - name: Setup and build with Gradle
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: build -x lint
-
-    - name: Upload apk
-      uses: actions/upload-artifact@v4
-      with:
-        name: Infinity-${{github.sha}}
-        path: app/build/outputs/apk/
-        if-no-files-found: error
+    # - name: Upload apk
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     name: Infinity-${{github.sha}}
+    #     path: app/build/outputs/apk/
+    #     if-no-files-found: error
